@@ -32,7 +32,6 @@ int dy[8] = {0, 0, 1, -1, -1, 1, 1, -1};
         }                                      \
     }
 
-
 // 每一个格子类
 class Point
 {
@@ -92,9 +91,9 @@ public:
     player *P; // 玩家
 
     bool finish = 0; // 判断游戏是否完成
-    
+
 public:
-    GamingMap(player* play) // 初始化地图+导入玩家
+    GamingMap(player *play) // 初始化地图+导入玩家
     {
         this->P = play; // 导入玩家身份
         Map.clear();
@@ -177,7 +176,7 @@ public:
 
         Map[iTargetY][iTargetX].SetMine();
 
-        // 以当前位置为中心 
+        // 以当前位置为中心
         // 开始遍历
         for (int i = 0; i < 8; i++)
             AddGridMineCount(iTargetX + dx[i], iTargetY + dy[i]);
@@ -244,8 +243,10 @@ public:
     {
         // 算出剩余未扫的格子数
         int iDefaultCount = 0;
-        for (auto Y : Map) {
-            for (auto X : Y) {
+        for (auto Y : Map)
+        {
+            for (auto X : Y)
+            {
                 if (X.CurrentShow == Is_Secret)
                     iDefaultCount++;
             }
@@ -355,7 +356,8 @@ void playMinesweeper(player *p)
     // 输入行数
     cout << "please input rows: 2~99" << endl;
     cin >> row;
-    while (row < 2 || row > 99) {
+    while (row < 2 || row > 99)
+    {
         cout << "Invalid Input: the row should be in range if (2 - 99)" << endl;
         cout << "Input again :>";
         cin >> row;
@@ -363,7 +365,8 @@ void playMinesweeper(player *p)
     // 输入列数
     cout << "please input columns: 2~99" << endl;
     cin >> column;
-    while (column < 2 || column > 99) {
+    while (column < 2 || column > 99)
+    {
         cout << "Invalid Input: the column should be in range if (2 - 99)" << endl;
         cout << "Input again :>";
         cin >> column;
@@ -373,14 +376,15 @@ void playMinesweeper(player *p)
     cin >> mine;
     if (mine < 0)
         mine = 0;
-    while (mine > column * row) {
+    while (mine > column * row)
+    {
         cout << "Invalid Input: The number of mines greater than Map!" << endl;
         cout << "Input again :>";
         cin >> mine;
         system("clear");
     }
     GamingMap MinesweeperGame(p);
-    
+
     // 生成地图
     MinesweeperGame.GenerateMap(mine, column, row);
 
