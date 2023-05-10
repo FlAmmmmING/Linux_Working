@@ -52,11 +52,6 @@ public:
 				cout << endl;
 			}
 		}
-		// 打印操作盘
-		cout << endl;
-		cout << "    W" << endl;
-		cout << "  A   D  " << endl;
-		cout << "    S" << endl;
 	}
 	bool Finish()
 	{
@@ -72,76 +67,80 @@ public:
 	void play()
 	{
 		print();
+		while (Finish() != true && !jud)
+		{
+			move();
+			print();
+		}
 		if (jud)
 		{
 			cout << "exit game!" << endl;
 			cout << "You lose " << 10 * (order - 1) << " scores!" << endl;
 			p->lose_score(10 * (order - 1));
 		}
-		else if (Finish())
+		else
 		{
 			cout << "You Win!" << endl;
 			cout << "You get " << max(10 * (order - 1) - cnt, 10 * (order - 2)) << " scores!" << endl;
 			p->get_score(max(10 * (order - 1) - cnt, 10 * (order - 2)));
 		}
+		sleep(3);
 	}
-	bool Exit()
+	void move()
 	{
-		return jud;
-	}
-	void move(char a)
-	{
-		if (a == 'q')
+		char a;
+		do
 		{
-			cout << "Are you shure? It will deduct your secore!(Y/N)" << endl;
-			char jud2;
-			cin >> jud2; // 再次确认是否要中途退出
-			if (jud2 == 'Y')
+			cout << "please move : ↑(w)↓(s)←(a)→(d):>";
+			cin >> a;
+			if (a == 'q')
 			{
-				jud = 1;
-				cnt = max(0, cnt - 1);
-				return;
+				cout << "Are you shure? It will deduct your secore!(Y/N)" << endl;
+				char jud2;
+				cin >> jud2; // 再次确认是否要中途退出
+				if (jud2 == 'Y')
+				{
+					jud = 1;
+					cnt = max(0, cnt - 1);
+					return;
+				}
+				else
+				{
+					system("clear");
+					cnt = max(0, cnt - 1);
+					print();
+					continue;
+				}
 			}
-			else
-			{
-				system("clear");
-				cnt = max(0, cnt - 1);
-				print();
-			}
-		}
+		} while (!((a == 's' && (FindBlank() - order) >= 0) || (a == 'w' && (FindBlank() + order) < order * order) || (a == 'd' && (FindBlank() - 1) >= 0 && FindBlank() % order != 0) || (a == 'a' && (FindBlank() + 1) < order * order && (FindBlank() + 1) % order != 0)));
 		cnt++;
-		if (a == 'w' && (FindBlank() + order) < order * order)
+		if (a == 'w')
 		{
 			int pos = FindBlank();
 			int x = arr[pos];
 			arr[pos] = arr[pos + order];
 			arr[pos + order] = x;
 		}
-		else if (a == 's' && (FindBlank() - order) >= 0)
+		else if (a == 's')
 		{
 			int pos = FindBlank();
 			int x = arr[pos];
 			arr[pos] = arr[pos - order];
 			arr[pos - order] = x;
 		}
-		else if (a == 'a' && (FindBlank() + 1) < order * order && (FindBlank() + 1) % order != 0)
+		else if (a == 'a')
 		{
 			int pos = FindBlank();
 			int x = arr[pos];
 			arr[pos] = arr[pos + 1];
 			arr[pos + 1] = x;
 		}
-		else if (a == 'd' && (FindBlank() - 1) >= 0 && FindBlank() % order != 0)
+		else if (a == 'd')
 		{
 			int pos = FindBlank();
 			int x = arr[pos];
 			arr[pos] = arr[pos - 1];
 			arr[pos - 1] = x;
-		}
-		else
-		{
-			move(getch());
-			cnt = max(0, cnt - 1);
 		}
 	}
 	int FindBlank() // 判断哪里是空的
@@ -171,15 +170,5 @@ void playHuarong(player *play)
 		cin >> order;
 	}
 	Huarong hr(order, play);
-	while (true)
-	{
-		hr.play();
-		hr.move(getch());
-		if (hr.Exit() || hr.Finish())
-		{
-			hr.play();
-			break;
-		}
-	}
-	sleep(3);
+	hr.play();
 }
