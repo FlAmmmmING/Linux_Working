@@ -36,7 +36,7 @@ struct point // 定义点
 
 struct MazeGame
 {
-	player* play;			  // 玩家信息
+	player *play;			  // 玩家信息
 	int row, col;			  // 这个地图的长宽
 	vector<block> myblock;	  // 动态数组
 	int x_num = 1, y_num = 1; // 矿工位置
@@ -46,7 +46,7 @@ struct MazeGame
 	int cnt = 0;			  // 记录你目前走了多少步骤
 
 	// 构造函数赋值，加入玩家信息
-	MazeGame(int _row, int _col, player* p)
+	MazeGame(int _row, int _col, player *p)
 	{
 		this->row = _row;
 		this->col = _col;
@@ -208,7 +208,7 @@ struct MazeGame
 		{
 			cnt--;
 			return;
-		} 
+		}
 		// 如果这个格子合法，我就把他赋值到当前的位置上
 		// 赋值
 		start.x = x;
@@ -267,7 +267,7 @@ struct MazeGame
 		if (jud2 == 'Y')
 		{
 			finish = 1;
-			cout << "Exit! You will be punished!" << endl;
+			cout << "Exit! You will be punished!(Lose  " << row * col << " scores!)" << endl;
 			this->play->lose_score(row * col);
 			return;
 		}
@@ -286,7 +286,8 @@ void playMaze(player *p)
 	int n = 0, m = 0;
 	cout << "please input the row of Maze (11 ~ 50) :>";
 	cin >> n;
-	while (n < 11 || n > 50) {
+	while (n < 11 || n > 50)
+	{
 		system("clear");
 		cout << "Invalid Input! the length of row should be in range of 11 to 50!" << endl;
 		cout << "Please input again:>";
@@ -294,7 +295,8 @@ void playMaze(player *p)
 	}
 	cout << "please input the col of Maze (11 ~ 50) :>";
 	cin >> m;
-	while (m < 11 || m > 50) {
+	while (m < 11 || m > 50)
+	{
 		system("clear");
 		cout << "Invalid Input! the length of column should be in range of 11 to 50!" << endl;
 		cout << "Please input again:>";
