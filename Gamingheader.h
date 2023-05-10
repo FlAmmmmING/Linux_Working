@@ -12,28 +12,30 @@
 using namespace std;
 
 // 实现将字符串变成整数的函数
-int to_INT(string s) {
+int to_INT(string s)
+{
     int n = s.size();
     int res = 0;
-    int k = 1; // 位数
+    int k = 1;       // 位数
     if (s[0] == '-') // 负数
-    {   
-        for (int i = n - 1; i >= 1; i--) {
+    {
+        for (int i = n - 1; i >= 1; i--)
+        {
             res += k * (s[i] - '0');
             k *= 10;
         }
         res = -res;
     }
-    else {
-        for (int i = n - 1; i >= 0; i--) {
+    else
+    {
+        for (int i = n - 1; i >= 0; i--)
+        {
             res += k * (s[i] - '0');
             k *= 10;
         }
     }
     return res;
 }
-
-
 
 bool is_formal = 0; // 全局变量，用来表示是否有用户登陆
 // 寻找文件查找登陆用户
@@ -52,8 +54,8 @@ public:
         string i_Username; // 用户名
         string i_Password; // 密码
         string i_score;    // 当前的分数
-        bool jud = 0;    // 是否有这个用户
-        string line;     // 读取这一行字
+        bool jud = 0;      // 是否有这个用户
+        string line;       // 读取这一行字
         cout << "Your Username:>";
         cin >> i_Username;
         // 先查找有没有这个用户
@@ -123,48 +125,61 @@ public:
     }
 
     // 接口
-    string getUser() {
+    string getUser()
+    {
         return this->Username;
     }
-    string getPassWord() {
+    string getPassWord()
+    {
         return this->Password;
     }
-    int getscore() {
+    int getscore()
+    {
         return this->score;
     }
 
     // 将新的分数替换原本的文件分数
-    void exchangescore(int score) {
+    void exchangescore(int score)
+    {
         // 先定位到我要修改的地方
         ifstream infile;
         string line;
         string strFileData = "";
-        int cnt = 0; // 只有当cnt % 3 == 0 的时候，才开始判断我这个数据需要修改么
-        bool yes = 0; // 我已经搜索到了需要修改的数据
+        int cnt = 0;        // 只有当cnt % 3 == 0 的时候，才开始判断我这个数据需要修改么
+        bool yes = 0;       // 我已经搜索到了需要修改的数据
         int modifyline = 0; // 这一行数据需要修改
         infile.open("User.txt");
-        while (infile) {
-            if (line == "\n") break;
+        while (infile)
+        {
+            if (line == "\n")
+                break;
             getline(infile, line);
-            if (cnt % 3 == 0) {
-                if (line == Username) {
+            if (cnt % 3 == 0)
+            {
+                if (line == Username)
+                {
                     yes = 1;
                     modifyline = cnt + 2;
                 }
             }
-            if (yes) {
-                if (cnt == modifyline) {
+            if (yes)
+            {
+                if (cnt == modifyline)
+                {
                     strFileData += (to_string(score) + "\n");
                     yes = 0;
                 }
-                else strFileData += line + "\n"; 
+                else
+                    strFileData += line + "\n";
             }
-            else strFileData += line + "\n";
+            else
+                strFileData += line + "\n";
             cnt++;
         }
         strFileData.pop_back(); // 把最后一个回车给扔了
         // 由于C++读入最后一行会读两边，去掉最后重复的行
-        while (strFileData.back() != '\n') strFileData.pop_back();
+        while (strFileData.back() != '\n')
+            strFileData.pop_back();
         strFileData.pop_back(); // 再扔掉一个回车
         infile.close();
         ofstream outfile;
@@ -189,7 +204,7 @@ void menu()
             "Please input the Index :>";
 }
 // 登陆用户的游戏菜单
-void menu(User* U)
+void menu(User *U)
 {
     cout << "**********Classic Gaming!Have Fun!**********\n"
             "Please Select Game:>************************\n"
@@ -198,8 +213,9 @@ void menu(User* U)
             "3.Random Maze*******************************\n"
             "If you want to get your score, then input: 9\n"
             "If you want to exit system, then input: 0 **\n"
-            "Current Player: "<< U->getUser() << ". Press 8 if you want to log out\n"
-            "Please input the Index :>";
+            "Current Player: "
+         << U->getUser() << ". Press 8 if you want to log out\n"
+                            "Please input the Index :>";
 }
 // 刷新页面，然后重现菜单界面
 void flash()
@@ -207,13 +223,11 @@ void flash()
     system("clear");
     menu();
 }
-void flash(User* U)
+void flash(User *U)
 {
     system("clear");
     menu(U);
 }
-
-
 
 // 写一个记录当前游玩分数的结构体
 struct player
@@ -234,7 +248,8 @@ public:
     {
         cout << "Your current score is :> " << this->score << endl;
     }
-    int return_score() {
+    int return_score()
+    {
         return this->score;
     }
     void clearscore()
@@ -264,4 +279,3 @@ char getch()
         perror("tcsetattr ~ICANON");
     return (buf);
 }
-
