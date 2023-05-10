@@ -62,7 +62,7 @@ public:
         getline(infile, line);
         while (infile)
         {
-            if (line.find(i_Username) < string ::npos)
+            if (line == i_Username)
             {
                 jud = 1; // 表示我搜索到了一个用户
                 break;
@@ -135,7 +135,43 @@ public:
 
     // 将新的分数替换原本的文件分数
     void exchangescore(int score) {
-        
+        // 先定位到我要修改的地方
+        ifstream infile;
+        string line;
+        string strFileData = "";
+        int cnt = 0; // 只有当cnt % 3 == 0 的时候，才开始判断我这个数据需要修改么
+        bool yes = 0; // 我已经搜索到了需要修改的数据
+        int modifyline = 0; // 这一行数据需要修改
+        infile.open("User.txt");
+        while (infile) {
+            if (line == "\n") break;
+            getline(infile, line);
+            if (cnt % 3 == 0) {
+                if (line == Username) {
+                    yes = 1;
+                    modifyline = cnt + 2;
+                }
+            }
+            if (yes) {
+                if (cnt == modifyline) {
+                    strFileData += (to_string(score) + "\n");
+                    yes = 0;
+                }
+                else strFileData += line + "\n"; 
+            }
+            else strFileData += line + "\n";
+            cnt++;
+        }
+        strFileData.pop_back(); // 把最后一个回车给扔了
+        // 由于C++读入最后一行会读两边，去掉最后重复的行
+        while (strFileData.back() != '\n') strFileData.pop_back();
+        strFileData.pop_back(); // 再扔掉一个回车
+        infile.close();
+        ofstream outfile;
+        outfile.open("User.txt");
+        outfile.clear();
+        outfile << strFileData;
+        outfile.close();
     }
 };
 
@@ -147,11 +183,10 @@ void menu()
             "1.Minesweeper*******************************\n"
             "2.Digital Huarong Road**********************\n"
             "3.Random Maze*******************************\n"
-            "If you want to login/register, than input: 8\n"
             "If you want to get your score, then input: 9\n"
             "If you want to exit system, then input: 0 **\n"
-            "Please input the Index**********************"
-         << endl;
+            "If you want to login/register, than input: 8\n"
+            "Please input the Index :>";
 }
 // 登陆用户的游戏菜单
 void menu(User* U)
@@ -164,8 +199,7 @@ void menu(User* U)
             "If you want to get your score, then input: 9\n"
             "If you want to exit system, then input: 0 **\n"
             "Current Player: "<< U->getUser() << ". Press 8 if you want to log out\n"
-            "Please input the Index**********************"
-         << endl;
+            "Please input the Index :>";
 }
 // 刷新页面，然后重现菜单界面
 void flash()
@@ -199,6 +233,9 @@ public:
     void show_score()
     {
         cout << "Your current score is :> " << this->score << endl;
+    }
+    int return_score() {
+        return this->score;
     }
     void clearscore()
     {
