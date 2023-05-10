@@ -33,7 +33,8 @@ void Begin()
                 }
                 else {
                     is_formal = 0; // 否则注销
-                    cout << "Log out!" << endl;
+                    cout << "Log out! Your score has been saved!" << endl;
+                    U->exchangescore(play->return_score()); // 获得当前分数，将分数覆盖到文档User
                     play->clearscore();
                     sleep(3);
                 }
@@ -46,6 +47,11 @@ void Begin()
                 is_formal ? flash(U) : flash();
             break;
             case 0:
+                if (is_formal) {
+                    cout << "Log out! Your score has been saved!" << endl;
+                    U->exchangescore(play->return_score()); // 获得当前分数，将分数覆盖到文档User
+                    play->clearscore();
+                }
                 cout << "Exit!" << endl;
                 sleep(3);
                 system("clear");
