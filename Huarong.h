@@ -2,8 +2,7 @@
 #pragma once
 #include "Gamingheader.h"
 
-using namespace std;
-class Huarong
+struct Huarong
 {
 private:
 	int order; // 阶数
@@ -93,7 +92,7 @@ public:
 	{
 		if (a == 'q')
 		{
-			cout << "Are you shure? It will deduct your secore!(Y/N)" << endl;
+			cout << "Are you sure? It will deduct your secore!(Y/N)" << endl;
 			char jud2;
 			cin >> jud2; // 再次确认是否要中途退出
 			if (jud2 == 'Y')
