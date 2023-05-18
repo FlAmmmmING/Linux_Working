@@ -79,32 +79,26 @@ struct MazeGame
 		srand((unsigned)time(NULL)); // 随机数种子
 		FindBlock();
 		// 第一步压入两堵墙（起点右边和起点下面）进入循环
-		while (myblock.size())
-		{
+		while (myblock.size()) {
 			int BlockSize = myblock.size();
 			int randnum = rand() % BlockSize; // 生成随机数
 			block SelectBlock = myblock[randnum];
 			x_num = SelectBlock.row; // 赋值
 			y_num = SelectBlock.column;
-			switch (SelectBlock.direction)
-			{
-			case down:
-			{
+			switch (SelectBlock.direction) {
+			case down: {
 				x_num++;
 				break;
 			}
-			case right:
-			{
+			case right: {
 				y_num++;
 				break;
 			}
-			case left:
-			{
+			case left: {
 				y_num--;
 				break;
 			}
-			case up:
-			{
+			case up: {
 				x_num--;
 				break;
 			}
@@ -118,7 +112,7 @@ struct MazeGame
 				FindBlock();
 			}
 			else
-				// 删除这堵墙
+				// 删除动态数组中的这个元素
 				myblock.erase(myblock.begin() + randnum);
 		}
 	}
@@ -261,7 +255,7 @@ struct MazeGame
 
 	void exit()
 	{
-		cout << "Are you shure? It will deduct your secore!(Y/N)" << endl;
+		cout << "Are you sure? It will deduct your secore!(Y/N)" << endl;
 		char jud2;
 		cin >> jud2; // 再次确认是否要中途退出
 		if (jud2 == 'Y')
