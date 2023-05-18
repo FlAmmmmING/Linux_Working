@@ -1,6 +1,5 @@
 #include "Gamingheader.h"
 
-using namespace std;
 // 随机
 #define RANDROM(x) rand() % (x) // 随机种子
 
@@ -33,7 +32,7 @@ int dy[8] = {0, 0, 1, -1, -1, 1, 1, -1};
     }
 
 // 每一个格子类
-class Point
+struct Point
 {
 public:
     char CurrentShow;             // 这个格子目前的状态
@@ -76,7 +75,7 @@ public:
 };
 
 // 地图管理
-class GamingMap
+struct GamingMap
 {
 public:
     vector<vector<Point>> Map; // 地图
